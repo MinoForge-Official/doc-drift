@@ -19,7 +19,7 @@ Built by [@MinoForge-Official](https://github.com/MinoForge-Official)
 <br/>
 
 [![npm](https://img.shields.io/npm/v/doc-drift?style=flat-square&color=black)](https://www.npmjs.com/package/doc-drift)
-[![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![license](https://img.shields.io/badge/license-Custom-red?style=flat-square)](LICENSE)
 [![dependencies](https://img.shields.io/badge/dependencies-0-success?style=flat-square)](package.json)
 [![docs](https://img.shields.io/badge/docs-verified_working-brightgreen?style=flat-square)](README.md)
 
@@ -191,4 +191,4 @@ console.log(`Passed: ${report.passedBlocks}/${report.totalBlocks}`);
 
 ### License
 
-[MIT](LICENSE) © 2026 [@MinoForge-Official](https://github.com/MinoForge-Official).
+[Custom Non-Commercial & Source-Available License](LICENSE) © 2026 MinoForge-Official. All rights reserved. Unauthorized selling, re-uploading, and impersonation are strictly prohibited.
