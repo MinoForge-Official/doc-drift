@@ -1,0 +1,44 @@
+{
+  "name": "doc-drift",
+  "version": "1.0.0",
+  "description": "Markdown Executable Test Runner. Verify that your README and documentation code snippets actually compile, import correctly, and work.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "doc-drift": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "action.yml"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "test": "node --test dist/tests/**/*.test.js",
+    "pretest": "npm run build"
+  },
+  "keywords": [
+    "documentation",
+    "readme",
+    "test-runner",
+    "markdown",
+    "doctest",
+    "code-examples",
+    "ci",
+    "developer-tools",
+    "verified-docs"
+  ],
+  "author": "MinoForge-Official",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MinoForge-Official/doc-drift.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3"
+  }
+}

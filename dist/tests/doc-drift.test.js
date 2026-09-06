@@ -1,0 +1,79 @@
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
+import { validateCodeBlock } from '../validator.js';
+import { getBadgeMarkdown } from '../badge.js';
+describe('doc-drift Code Validator', () => {
+    it('passes valid JSON codeblock', () => {
+        const block = {
+            file: 'README.md',
+            startLine: 1,
+            endLine: 5,
+            language: 'json',
+            rawLanguage: 'json',
+            code: '{\n  "name": "my-tool",\n  "version": "1.0.0"\n}',
+        };
+        const res = validateCodeBlock(block);
+        assert.strictEqual(res.status, 'pass');
+    });
+    it('fails invalid JSON codeblock', () => {
+        const block = {
+            file: 'README.md',
+            startLine: 10,
+            endLine: 15,
+            language: 'json',
+            rawLanguage: 'json',
+            code: '{\n  name: "missing-quotes",\n}',
+        };
+        const res = validateCodeBlock(block);
+        assert.strictEqual(res.status, 'fail');
+        assert.ok(res.error?.includes('JSON'));
+    });
+    it('detects uninstalled packages in JS snippet', () => {
+        const block = {
+            file: 'README.md',
+            startLine: 20,
+            endLine: 25,
+            language: 'javascript',
+            rawLanguage: 'js',
+            code: `import { nonExistentPackage } from 'completely-fake-package-12345';`,
+        };
+        const res = validateCodeBlock(block);
+        assert.strictEqual(res.status, 'fail');
+        assert.ok(res.error?.includes('completely-fake-package-12345'));
+    });
+    it('detects unbalanced quotes in shell snippets', () => {
+        const block = {
+            file: 'README.md',
+            startLine: 30,
+            endLine: 32,
+            language: 'bash',
+            rawLanguage: 'bash',
+            code: `curl -X POST "https://api.example.com -d '{"data": 1}'`,
+        };
+        const res = validateCodeBlock(block);
+        assert.strictEqual(res.status, 'fail');
+        assert.ok(res.error?.includes('Unmatched quotes'));
+    });
+    it('honors skipTest flag', () => {
+        const block = {
+            file: 'README.md',
+            startLine: 40,
+            endLine: 45,
+            language: 'json',
+            rawLanguage: 'json',
+            code: `invalid json but skipped`,
+            skipTest: true,
+        };
+        const res = validateCodeBlock(block);
+        assert.strictEqual(res.status, 'skipped');
+    });
+});
+describe('doc-drift Badge Generator', () => {
+    it('generates correct badge markdown', () => {
+        const passBadge = getBadgeMarkdown(true);
+        assert.ok(passBadge.includes('verified_working'));
+        const failBadge = getBadgeMarkdown(false);
+        assert.ok(failBadge.includes('syntax_errors'));
+    });
+});
+//# sourceMappingURL=doc-drift.test.js.map

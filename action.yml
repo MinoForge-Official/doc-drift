@@ -1,0 +1,38 @@
+name: 'Doc Drift - Markdown Test Runner'
+description: 'Verify that code snippets in your README and docs actually compile and work in CI.'
+author: 'MinoForge-Official'
+branding:
+  icon: 'book-open'
+  color: 'green'
+
+inputs:
+  paths:
+    description: 'Target markdown files or directories to validate'
+    required: false
+    default: 'README.md docs'
+  strict:
+    description: 'Exit with error code 1 if any snippet fails validation'
+    required: false
+    default: 'true'
+  badge:
+    description: 'Generate an SVG status badge (docs-verified.svg)'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run doc-drift
+      shell: bash
+      run: |
+        STRICT_FLAG=""
+        if [ "${{ inputs.strict }}" = "true" ]; then
+          STRICT_FLAG="--strict"
+        fi
+
+        BADGE_FLAG=""
+        if [ "${{ inputs.badge }}" = "true" ]; then
+          BADGE_FLAG="--badge"
+        fi
+
+        npx --yes doc-drift ${{ inputs.paths }} $STRICT_FLAG $BADGE_FLAG
